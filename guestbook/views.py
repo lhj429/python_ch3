@@ -6,7 +6,6 @@ from guestbook.models import Guestbook
 
 def index(request):
     guestbook_list = Guestbook.objects.all().order_by('-regdate')
-
     context = {'guestbook_list': guestbook_list}
     return render(request, 'guestbook/index.html', context)
 
@@ -20,9 +19,12 @@ def add(request):
 
     return HttpResponseRedirect('/guestbook')
 
-def delete(request):
-    # if request.GET['password'] == :
-    # guestbook_list =
-    # Guestbook.objects.filter(id=request.POST['id']).filter(password=request.POST['password']).delete()
+def deleteform(request):
+    guestbook_id = request.GET['id']
+    data = {'guestbook_id' : guestbook_id}
+    return render(request, 'guestbook/deleteform.html', data)
 
-    # return HttpResponseRedirect('/guestbook')
+def delete(request):
+    Guestbook.objects.filter(id=request.POST['id']).filter(password=request.POST['password']).delete()
+
+    return HttpResponseRedirect('/guestbook')
